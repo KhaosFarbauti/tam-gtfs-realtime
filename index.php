@@ -71,5 +71,6 @@ $alerts = getServiceAlerts();
 <?php else: ?>
 	<p>Aucun retard détecté pour le moment.</p>
 <?php endif; ?>
+	<p class="footer">Cod&eacute; par Khaos Farbauti Ibn Oblivion - <a href="https://github.com/KhaosFarbauti/tam-gtfs-realtime">Sources Github</a></p>
 </body>
 </html>
