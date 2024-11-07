@@ -126,6 +126,10 @@ function getDelays() {
         echo "<p>Erreur lors de la lecture des entités GTFS-RT : " . htmlspecialchars($e->getMessage()) . "</p>";
         return [];
     }
+	
+	usort($delays, function($a, $b) {
+        return strcmp($a['route'], $b['route']);
+    });
 
 	$averageDelay = $delaysCount > 0 ? $totalDelay / $delaysCount : 0;
 
