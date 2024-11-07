@@ -51,7 +51,7 @@ $stops = loadStops('stops.txt');
 
 function getDelays() {
     global $routes, $stops;
-    $url = GTFS_RT_URL;
+    $url = GTFS_RT_URL_DELAYS;
 
     $rawData = file_get_contents($url);
 
@@ -123,7 +123,7 @@ function getDelays() {
         }		
 		
     } catch (Exception $e) {
-        echo "<p>Erreur lors de la lecture des entités GTFS-RT : " . htmlspecialchars($e->getMessage()) . "</p>";
+        echo "<p>Erreur lors de la lecture des données de retards : " . htmlspecialchars($e->getMessage()) . "</p>";
         return [];
     }
 	
@@ -145,4 +145,42 @@ function getDelays() {
 		'averageDelay' => $averageDelay
     ];
 }
+
+function getServiceAlerts() {
+    $url = GTFS_RT_URL_ALERTS;
+
+    $rawData = file_get_contents($url);
+
+    if ($rawData === FALSE) {
+        echo "<p>Erreur : impossible de récupérer les données du flux GTFS-RT.</p>";
+        return [];
+    }
+
+    try {
+        $feed = new FeedMessage();
+        $feed->mergeFromString($rawData);
+    } catch (Exception $e) {
+        echo "<p>Erreur : échec du décodage des données GTFS-RT - " . htmlspecialchars($e->getMessage()) . "</p>";
+        return [];
+    }
+
+    $alerts = [];
+    foreach ($feed->getEntity() as $entity) {
+        if ($entity->hasAlert()) {
+            $alert = $entity->getAlert();
+            $severityLevel = $alert->getSeverityLevel();
+            $alertHeader = $alert->getHeaderText()->getTranslation()[0]->getText();
+            $alertDescription = $alert->getDescriptionText()->getTranslation()[0]->getText();
+
+            $alerts[] = [
+                'severity' => $severityLevel,
+                'header' => $alertHeader,
+                'description' => $alertDescription
+            ];
+        }
+    }
+
+    return $alerts;
+}
+
 ?>
