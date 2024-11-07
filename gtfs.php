@@ -127,8 +127,12 @@ function getDelays() {
         return [];
     }
 	
-	usort($delays, function($a, $b) {
-        return strcmp($a['route'], $b['route']);
+    usort($delays, function($a, $b) {
+        $routeComparison = strcmp($a['route'], $b['route']);
+        if ($routeComparison === 0) {
+            return strcmp($a['stop'], $b['stop']);
+        }
+        return $routeComparison;
     });
 
 	$averageDelay = $delaysCount > 0 ? $totalDelay / $delaysCount : 0;
