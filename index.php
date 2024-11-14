@@ -29,6 +29,8 @@ $alerts = getServiceAlerts();
 
     <p><strong>Nombre de bus/tram en retard : </strong><?= $delaysCount ?><br /><strong>Nombre de bus/tram à l'heure : </strong><?= $ontimeCount ?><br /><strong>Nombre de bus/tram en avance : </strong><?= $earlyCount ?></p>
 
+<?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), round($averageDelay / 60,0), "etat_global"); ?>
+
 	<h2>Incidents en cours</h2>
 <?php if (!empty($alerts)): ?>
 	<ul>
@@ -65,6 +67,7 @@ $alerts = getServiceAlerts();
 				<td><?= htmlspecialchars($delay['estimated_departure']) ?></td>
 			</tr>
 <?php endif; ?>
+<?php storeDB($delay['route_id'], $delay['stop_id'], $delay['delay'], "historisation"); ?>
 <?php endforeach; ?>
 		</tbody>
 	</table>

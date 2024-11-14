@@ -17,6 +17,38 @@ requireAllPhpFiles('Transit_realtime');
 
 use \Transit_realtime\FeedMessage;
 
+function storeDB($colA, $colB, $colC, $table) {
+	$servername = DB_SERVERNAME;
+	$username = DB_USERNAME;
+	$password = DB_PASSWORD;
+	$dbname = DB_NAME;
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connexion échouée : " . $conn->connect_error);
+    }
+
+	$colonnes = "";
+	switch($table) {
+		case 'historisation':
+			$colonnes = "route_id, stop_id, retard";
+			break;
+		case 'etat_global':
+			$colonnes = "total_retard, total_lignes, delay_moyen";
+			break;
+	}
+
+    $stmt = $conn->prepare("INSERT INTO ".$table." (".$colonnes.") VALUES (?, ?, ?)");
+    $stmt->bind_param("iii", $colA, $colB, $colC);
+
+    if (!$stmt->execute()) {
+        echo "Erreur : " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 
 function loadRoutes($filename) {
     $routes = [];
@@ -104,7 +136,9 @@ function getDelays() {
                     // Ajouter au tableau des retards
                     $delays[] = [
                         'route' => $routeName,
+						'route_id' => $routeId,
                         'stop' => $stopName,
+                        'stop_id' => $stopId,
                         'delay' => $delay,
                         'estimated_departure' => $estimatedDepartureFormatted
                     ];
