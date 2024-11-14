@@ -201,17 +201,17 @@ function getServiceAlerts() {
     $alerts = [];
     foreach ($feed->getEntity() as $entity) {
         if ($entity->hasAlert()) {
-            $alert = $entity->getAlert();
-            $cause = $alert->getCause();
+			$alert = $entity->getAlert();
+			$cause = $alert->getCause();
 			$effect = $alert->getEffect();
-            $alertHeader = $alert->getHeaderText()->getTranslation()[0]->getText();
-            $alertDescription = $alert->getDescriptionText()->getTranslation()[0]->getText();
+			$alertHeader = $alert->getHeaderText()->getTranslation()[0]->getText();
+			$alertDescription = $alert->getDescriptionText()->getTranslation()[0]->getText();
 
             $alerts[] = [
-                'cause' => $cause,
+				'cause' => $cause,
 				'effect' => $effect,
-                'header' => $alertHeader,
-                'description' => $alertDescription
+				'header' => $alertHeader,
+				'description' => $alertDescription
             ];
         }
     }
