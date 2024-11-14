@@ -126,8 +126,9 @@ function getDelays() {
                     $stopId = $stopTimeUpdate->getStopId();
 
                     // Calcul de l'heure de départ estimée
-                    $estimatedDeparture = $scheduledDeparture + $delay;
-                    $estimatedDepartureFormatted = date("H:i", $estimatedDeparture);
+					$estimatedDeparture = $scheduledDeparture + $delay;
+					$scheduledDepartureFormatted = date("H:i", $scheduledDeparture);
+					$estimatedDepartureFormatted = date("H:i", $estimatedDeparture);
 
                     // Obtenir les noms de la ligne et de l'arrêt
                     $routeName = isset($routes[$routeId]) ? $routes[$routeId] : $routeId;
@@ -135,12 +136,13 @@ function getDelays() {
 
                     // Ajouter au tableau des retards
                     $delays[] = [
-                        'route' => $routeName,
+						'route' => $routeName,
 						'route_id' => $routeId,
-                        'stop' => $stopName,
-                        'stop_id' => $stopId,
-                        'delay' => $delay,
-                        'estimated_departure' => $estimatedDepartureFormatted
+						'stop' => $stopName,
+						'stop_id' => $stopId,
+						'delay' => $delay,
+						'scheduled_departure' => $scheduledDepartureFormatted,
+						'estimated_departure' => $estimatedDepartureFormatted
                     ];
 
                     // Décompte des lignes en retard, à l'heure et en avance
@@ -202,14 +204,11 @@ function getServiceAlerts() {
     foreach ($feed->getEntity() as $entity) {
         if ($entity->hasAlert()) {
 			$alert = $entity->getAlert();
-			$cause = $alert->getCause();
-			$effect = $alert->getEffect();
-			$alertHeader = $alert->getHeaderText()->getTranslation()[0]->getText();
-			$alertDescription = $alert->getDescriptionText()->getTranslation()[0]->getText();
+
+			$alertHeader = (null !== $alert->getHeaderText()) ? $alert->getHeaderText()->getTranslation()[0]->getText() : "";
+			$alertDescription = (null !== $alert->getDescriptionText()) ? $alert->getDescriptionText()->getTranslation()[0]->getText() : "";
 
             $alerts[] = [
-				'cause' => $cause,
-				'effect' => $effect,
 				'header' => $alertHeader,
 				'description' => $alertDescription
             ];

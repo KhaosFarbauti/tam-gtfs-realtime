@@ -10,7 +10,7 @@ $delays = $delayData['delays'];
 $delaysCount = $delayData['delaysCount'];
 $ontimeCount = $delayData['ontimeCount'];
 $earlyCount = $delayData['earlyCount'];
-$averageDelay = $delayData['averageDelay'];
+$averageDelay = round($delayData['averageDelay']/60,0);
 $alerts = getServiceAlerts();
 ?>
 
@@ -24,35 +24,63 @@ $alerts = getServiceAlerts();
 <body>
 	<h1>Informations du réseau TaM</h1>
 	<p><i>Donn&eacute;es issues de <a href="https://data.montpellier3m.fr/" />https://data.montpellier3m.fr/</a></i></p>
-	
-	<p><strong>Etat Global du réseau : </strong><?= round($delaysCount / ($delaysCount+$ontimeCount+$earlyCount) * 100,0); ?>% de bus/tram en retard (Retard moyen : <?= round($averageDelay / 60,0) ?> minutes)</p>
 
-    <p><strong>Nombre de bus/tram en retard : </strong><?= $delaysCount ?><br /><strong>Nombre de bus/tram à l'heure : </strong><?= $ontimeCount ?><br /><strong>Nombre de bus/tram en avance : </strong><?= $earlyCount ?></p>
+	<table class="dataTable">
+		<thead>
+			<tr>
+				<th>Etat Global du réseau</th>
+				<th>Nombre de bus/tram</th>
+				<th>Retard moyen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><?= round($delaysCount / ($delaysCount+$ontimeCount+$earlyCount) * 100,0); ?>% de bus/tram en retard</td>
+				<td>en retard : <?= $delaysCount ?><br />à l'heure : <?= $ontimeCount ?><br />en avance : <?= $earlyCount ?></td>
+				<td><?= $averageDelay ?> minute<?php if ($averageDelay>1): ?>s<?php endif; ?></td>
+			</tr>
+		</tbody>
+	</table>
 
-<?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), round($averageDelay / 60,0), "etat_global"); ?>
+<?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), $averageDelay, "etat_global"); ?>
 
-	<h2>Incidents en cours</h2>
+	<h2>Alertes en cours</h2>
 <?php if (!empty($alerts)): ?>
-	<ul>
+	<table class="dataTable">
+		<thead>
+			<tr>
+				<th>Classification</th>
+				<th>Message</th>
+			</tr>
+		</thead>
+		<tbody>
+<?php $alert = null; ?>
+<?php $alertpre = null; ?>
 <?php foreach ($alerts as $alert): ?>
-		<li>
-			<strong>Titre : </strong><?= htmlspecialchars($alert['header']) ?> - <strong>Description : </strong><?= htmlspecialchars($alert['description']) ?>
-		</li>
+<?php if ($alert != $alertpre): ?>
+			<tr>
+				<td><?= htmlspecialchars($alert['header']) ?></td>
+				<td><?= htmlspecialchars($alert['description']) ?></td>
+			</tr>
+<?php $alertpre = $alert; ?>
+<?php endif; ?>
 <?php endforeach; ?>
-	</ul>
+		</tbody>
+	</table>
 <?php else: ?>
-	<p>Aucun incident en cours pour le moment.</p>
+	<p>Aucune alerte en cours pour le moment.</p>
 <?php endif; ?>
 
-	<h2>Liste des retards du réseau TaM</h2>
+	<h2>Liste des retards du r&eacute;seau TaM</h2>
 <?php if (!empty($delays)): ?>
 	<table class="dataTable">
 		<thead>
 			<tr>
 				<th>Route</th>
 				<th>Arrêt</th>
-				<th>Retard</th>
-				<th>Heure de départ estimée</th>
+				<th>Retard (s)</th>
+				<th>Heure de r&eacute;f&eacute;rence</th>
+				<th>Heure de d&eacute;part estim&eacute;e</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,6 +90,7 @@ $alerts = getServiceAlerts();
 				<td><?= htmlspecialchars($delay['route']) ?></td>
 				<td><?= htmlspecialchars($delay['stop']) ?></td>
 				<td><?= htmlspecialchars($delay['delay']) ?></td>
+				<td><?= htmlspecialchars($delay['scheduled_departure']) ?></td>
 				<td><?= htmlspecialchars($delay['estimated_departure']) ?></td>
 			</tr>
 <?php endif; ?>
