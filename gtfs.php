@@ -202,12 +202,14 @@ function getServiceAlerts() {
     foreach ($feed->getEntity() as $entity) {
         if ($entity->hasAlert()) {
             $alert = $entity->getAlert();
-            $severityLevel = $alert->getSeverityLevel();
+            $cause = $alert->getCause();
+			$effect = $alert->getEffect();
             $alertHeader = $alert->getHeaderText()->getTranslation()[0]->getText();
             $alertDescription = $alert->getDescriptionText()->getTranslation()[0]->getText();
 
             $alerts[] = [
-                'severity' => $severityLevel,
+                'cause' => $cause,
+				'effect' => $effect,
                 'header' => $alertHeader,
                 'description' => $alertDescription
             ];

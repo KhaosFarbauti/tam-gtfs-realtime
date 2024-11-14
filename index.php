@@ -36,9 +36,7 @@ $alerts = getServiceAlerts();
 	<ul>
 <?php foreach ($alerts as $alert): ?>
 		<li>
-			<strong>Gravité : </strong><?= htmlspecialchars($alert['severity']) ?><br>
-			<strong>Titre : </strong><?= htmlspecialchars($alert['header']) ?><br>
-			<strong>Description : </strong><?= htmlspecialchars($alert['description']) ?>
+			<strong>Titre : </strong><?= htmlspecialchars($alert['header']) ?> - <strong>Description : </strong><?= htmlspecialchars($alert['description']) ?>
 		</li>
 <?php endforeach; ?>
 	</ul>
