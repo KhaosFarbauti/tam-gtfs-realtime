@@ -78,10 +78,10 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 <?php if (!empty($delays)): ?>
 
 	<form method="GET" action="">
-		<label for="delayFilter">Afficher les retards :</label>
+		<label for="delayFilter">Afficher :</label>
 			<select id="delayFilter" name="delayFilter">
-				<option value="all" <?= (!isset($_GET['delayFilter']) || $_GET['delayFilter'] == 'all') ? 'selected' : '' ?>>Tous les retards</option>
-				<option value="over60" <?= (isset($_GET['delayFilter']) && $_GET['delayFilter'] == 'over60') ? 'selected' : '' ?>>Supérieurs à 60 secondes</option>
+				<option value="all" <?= (!isset($_GET['delayFilter']) || $_GET['delayFilter'] == 'all') ? 'selected' : '' ?>>Tous les décalages</option>
+				<option value="over60" <?= (isset($_GET['delayFilter']) && $_GET['delayFilter'] == 'over60') ? 'selected' : '' ?>>Les retards supérieurs à 60 secondes</option>
 			</select>
 		<button type="submit">Filtrer</button>
 	</form>
