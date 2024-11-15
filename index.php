@@ -12,6 +12,9 @@ $ontimeCount = $delayData['ontimeCount'];
 $earlyCount = $delayData['earlyCount'];
 $averageDelay = round($delayData['averageDelay']/60,0);
 $alerts = getServiceAlerts();
+
+$delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
+
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +76,17 @@ $alerts = getServiceAlerts();
 
 	<h2>Liste des retards du r&eacute;seau TaM</h2>
 <?php if (!empty($delays)): ?>
+
+	<form method="GET" action="">
+		<label for="delayFilter">Afficher les retards :</label>
+			<select id="delayFilter" name="delayFilter">
+				<option value="all" <?= (!isset($_GET['delayFilter']) || $_GET['delayFilter'] == 'all') ? 'selected' : '' ?>>Tous les retards</option>
+				<option value="over60" <?= (isset($_GET['delayFilter']) && $_GET['delayFilter'] == 'over60') ? 'selected' : '' ?>>Supérieurs à 60 secondes</option>
+			</select>
+		<button type="submit">Filtrer</button>
+	</form>
+
+
 	<table class="dataTable">
 		<thead>
 			<tr>
@@ -85,6 +99,12 @@ $alerts = getServiceAlerts();
 		</thead>
 		<tbody>
 <?php foreach ($delays as $delay): ?>
+<?php storeDB($delay['route_id'], $delay['stop_id'], $delay['delay'], "historisation"); ?>
+<?php
+if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
+	continue;
+}
+?>
 <?php if ($delay['delay']!=0): ?>
 			<tr>
 				<td><?= htmlspecialchars($delay['route']) ?></td>
@@ -94,7 +114,6 @@ $alerts = getServiceAlerts();
 				<td><?= htmlspecialchars($delay['estimated_departure']) ?></td>
 			</tr>
 <?php endif; ?>
-<?php storeDB($delay['route_id'], $delay['stop_id'], $delay['delay'], "historisation"); ?>
 <?php endforeach; ?>
 		</tbody>
 	</table>
