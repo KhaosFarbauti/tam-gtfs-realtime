@@ -76,7 +76,7 @@ $alerts = getServiceAlerts();
 	<table class="dataTable">
 		<thead>
 			<tr>
-				<th>Route</th>
+				<th>Ligne</th>
 				<th>Arrêt</th>
 				<th>Retard (s)</th>
 				<th>Heure de r&eacute;f&eacute;rence</th>

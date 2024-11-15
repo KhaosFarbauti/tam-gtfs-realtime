@@ -56,8 +56,9 @@ function loadRoutes($filename) {
         $header = fgetcsv($handle, 1000, ",");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $routeId = $data[array_search('route_id', $header)];
+			$routeShortName = $data[array_search('route_short_name', $header)];
             $routeName = $data[array_search('route_long_name', $header)];
-            $routes[$routeId] = $routeName;
+            $routes[$routeId] = "(".$routeShortName.") ".$routeName;
         }
         fclose($handle);
     }
@@ -110,7 +111,7 @@ function getDelays() {
         foreach ($feed->getEntity() as $entity) {
             if ($entity->hasTripUpdate()) {
                 $tripUpdate = $entity->getTripUpdate();
-                $routeId = substr($tripUpdate->getTrip()->getRouteId(),2);
+                $routeId = $tripUpdate->getTrip()->getRouteId();
                 $stopTimeUpdates = $tripUpdate->getStopTimeUpdate();
                 
                 // Vérifier que l'array getStopTimeUpdate() n'est pas vide avant d'y accéder
