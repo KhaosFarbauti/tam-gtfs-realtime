@@ -47,8 +47,8 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 
 <?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), $averageDelay, "etat_global"); ?>
 
-	<h2>Alertes en cours</h2>
 <?php if (!empty($alerts)): ?>
+	<h2>Alertes en cours</h2>
 	<table class="dataTable">
 		<thead>
 			<tr>
@@ -70,8 +70,6 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 <?php endforeach; ?>
 		</tbody>
 	</table>
-<?php else: ?>
-	<p>Aucune alerte en cours pour le moment.</p>
 <?php endif; ?>
 
 	<h2>Liste des retards du r&eacute;seau TaM</h2>
