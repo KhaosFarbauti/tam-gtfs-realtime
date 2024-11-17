@@ -48,5 +48,6 @@ include 'gtfs.php';
 <?php
 	};
 ?>
+	<p class="footer">Donn&eacute;es issues de <a href="https://data.montpellier3m.fr/" />https://data.montpellier3m.fr/</a> - Cod&eacute; par Khaos Farbauti Ibn Oblivion - <a href="https://github.com/KhaosFarbauti/tam-gtfs-realtime">Sources Github</a></p>
 </body>
 </html>
