@@ -39,8 +39,8 @@ function storeDB($colA, $colB, $colC, $table) {
 			break;
 	}
 
-    $stmt = $conn->prepare("INSERT INTO ".$table." (".$colonnes.") VALUES (?, ?, ?)");
-    $stmt->bind_param("iii", $colA, $colB, $colC);
+	$stmt = $conn->prepare("INSERT INTO ".$table." (".$colonnes.") VALUES (?, ?, ?)");
+	$stmt->bind_param("iii", $colA, $colB, $colC);
 
     if (!$stmt->execute()) {
         echo "Erreur : " . $stmt->error;

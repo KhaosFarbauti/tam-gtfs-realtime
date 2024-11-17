@@ -26,8 +26,7 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 </head>
 <body>
 	<h1>Informations du réseau TaM</h1>
-	<p><i>Donn&eacute;es issues de <a href="https://data.montpellier3m.fr/" />https://data.montpellier3m.fr/</a></i></p>
-
+	
 	<table class="dataTable">
 		<thead>
 			<tr>
@@ -46,7 +45,7 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 	</table>
 
 <?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), $averageDelay, "etat_global"); ?>
-
+<p><a href="graphiques.php">Voir les graphiques</a></p>
 <?php if (!empty($alerts)): ?>
 	<h2>Alertes en cours</h2>
 	<table class="dataTable">
@@ -74,7 +73,6 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 
 	<h2>Liste des retards du r&eacute;seau TaM</h2>
 <?php if (!empty($delays)): ?>
-
 	<form method="GET" action="">
 		<label for="delayFilter">Afficher :</label>
 			<select id="delayFilter" name="delayFilter">
@@ -97,7 +95,7 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 		</thead>
 		<tbody>
 <?php foreach ($delays as $delay): ?>
-<?php storeDB($delay['route_id'], $delay['stop_id'], $delay['delay'], "historisation"); ?>
+<?php storeDB(substr($delay['route_id'],2), $delay['stop_id'], $delay['delay'], "historisation"); ?>
 <?php
 if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 	continue;
@@ -118,6 +116,6 @@ if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 <?php else: ?>
 	<p>Aucun retard détecté pour le moment.</p>
 <?php endif; ?>
-	<p class="footer">Cod&eacute; par Khaos Farbauti Ibn Oblivion - <a href="https://github.com/KhaosFarbauti/tam-gtfs-realtime">Sources Github</a></p>
+	<p class="footer">Donn&eacute;es issues de <a href="https://data.montpellier3m.fr/" />https://data.montpellier3m.fr/</a> - Cod&eacute; par Khaos Farbauti Ibn Oblivion - <a href="https://github.com/KhaosFarbauti/tam-gtfs-realtime">Sources Github</a></p>
 </body>
 </html>
