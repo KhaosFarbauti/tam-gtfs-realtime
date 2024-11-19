@@ -86,7 +86,7 @@ for ($i = 0; $i < $nbPoints - 1; $i++) {
 }
 
 // Légende
-imagestring($img, 3, $width - 200, $marge, "% de bus/tram en retard", $lineColor);
+imagestring($img, 3, $width / 2 - 50, $marge - 20, "% de bus/tram en retard", $lineColor);
 
 // Affichage de l'image
 header('Content-Type: image/png');

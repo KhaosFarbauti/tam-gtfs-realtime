@@ -74,7 +74,7 @@ foreach ($hours as $index => $hour) {
 }
 
 // Légende
-imagestring($img, 3, $width - 200, $marge - 20, "Retard moyen par heure", $textColor);
+imagestring($img, 3, $width / 2 - 50, $marge - 20, "Retard moyen par heure (en minutes)", $textColor);
 
 // Affichage de l'image
 header('Content-Type: image/png');
