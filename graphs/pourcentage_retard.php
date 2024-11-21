@@ -13,8 +13,13 @@ try {
 }
 
 // Récupération des données
-$query = $pdo->query("SELECT recorded_at, total_retard, total_lignes, delay_moyen FROM etat_global ORDER BY recorded_at ASC");
+$query = $pdo->query("SELECT recorded_at, total_retard, total_lignes, delay_moyen FROM etat_global WHERE recorded_at >= NOW() - INTERVAL 7 DAY ORDER BY recorded_at ASC");
 $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+// Vérifier si des données sont récupérées
+if (empty($data)) {
+    die("Aucune donnée disponible pour les 7 derniers jours.");
+}
 
 // Extraction des mesures et des timestamps
 $timestamps = array_column($data, 'recorded_at');
@@ -86,7 +91,7 @@ for ($i = 0; $i < $nbPoints - 1; $i++) {
 }
 
 // Légende
-imagestring($img, 3, $width / 2 - 50, $marge - 20, "% de bus/tram en retard", $lineColor);
+imagestring($img, 3, $width / 2 - 50, $marge - 20, "% de bus/tram en retard sur les 7 derniers jours", $lineColor);
 
 // Affichage de l'image
 header('Content-Type: image/png');
