@@ -33,7 +33,7 @@ include 'gtfs.php';
 	<div class="graph">
         <img src="/graphs/moyenne_globale.php" alt="Retard moyen">
     </div>
-	<p><a href="/">Voir les chiffres</a></p>
+	<p><a href="/">Voir les donn&eacute;es temps r&eacute;el</a></p>
 	<h1>Retard par lignes</h1>
 <?php
 	$liste_lignes = array(1,2,3,4,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36,38,40,41,42,43,44,46,50,51,52,53,91,92,93,94,95,96);
