@@ -206,8 +206,13 @@ function getServiceAlerts() {
         if ($entity->hasAlert()) {
 			$alert = $entity->getAlert();
 
-			$alertHeader = (null !== $alert->getHeaderText()) ? $alert->getHeaderText()->getTranslation()[0]->getText() : "";
-			$alertDescription = (null !== $alert->getDescriptionText()) ? $alert->getDescriptionText()->getTranslation()[0]->getText() : "";
+			$alertHeader = (null !== $alert->getHeaderText() && count($alert->getHeaderText()->getTranslation()) > 0) 
+				? $alert->getHeaderText()->getTranslation()[0]->getText() 
+				: "";
+
+			$alertDescription = (null !== $alert->getDescriptionText() && count($alert->getDescriptionText()->getTranslation()) > 0) 
+				? $alert->getDescriptionText()->getTranslation()[0]->getText() 
+				: "";
 
             $alerts[] = [
 				'header' => $alertHeader,
