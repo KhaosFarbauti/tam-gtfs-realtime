@@ -88,7 +88,7 @@ $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 			<tr>
 				<th>Ligne</th>
 				<th>Arrêt</th>
-				<th>Retard (s)</th>
+				<th>Retard</th>
 				<th>Heure de r&eacute;f&eacute;rence</th>
 				<th>Heure de d&eacute;part estim&eacute;e</th>
 			</tr>
@@ -105,7 +105,7 @@ if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 			<tr>
 				<td><?= htmlspecialchars($delay['route']) ?></td>
 				<td><?= htmlspecialchars($delay['stop']) ?></td>
-				<td><?= htmlspecialchars($delay['delay']) ?></td>
+				<td><?= htmlspecialchars($delay['delay']) ?>s</td>
 				<td><?= htmlspecialchars($delay['scheduled_departure']) ?></td>
 				<td><?= htmlspecialchars($delay['estimated_departure']) ?></td>
 			</tr>
