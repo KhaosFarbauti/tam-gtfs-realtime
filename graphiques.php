@@ -36,10 +36,9 @@ include 'gtfs.php';
 	<p><a href="/">Voir les donn&eacute;es temps r&eacute;el</a></p>
 	<h1>Retard par lignes</h1>
 <?php
-	$liste_lignes = array(1,2,3,4,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36,38,40,41,42,43,44,46,50,51,52,53,91,92,93,94,95,96);
+	$liste_lignes = getLignes();
 	for ($i = 0; $i < count($liste_lignes); ++$i){
-		$routeId="4-".$liste_lignes[$i];
-		$routeName=isset($routes[$routeId]) ? $routes[$routeId] : $routeId;
+		$routeName=isset($routes[$liste_lignes[$i]]) ? $routes[$liste_lignes[$i]] : $liste_lignes[$i];
 ?>
 	<h2><?= htmlspecialchars($routeName) ?></h2>
 	<div class="graph">

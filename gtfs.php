@@ -224,4 +224,11 @@ function getServiceAlerts() {
     return $alerts;
 }
 
+function getLignes() {
+    $routes = loadRoutes('routes.txt');
+	$lignes = array_keys($routes);
+	sort($lignes, SORT_NATURAL);
+	return $lignes;
+}
+
 ?>
