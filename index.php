@@ -15,6 +15,16 @@ $alerts = getServiceAlerts();
 
 $delayFilter = $_GET['delayFilter'] ?? 'all'; // Par défaut : tous les retards
 
+function formatDelay($seconds) {
+    $isNegative = $seconds < 0;
+    $seconds = abs($seconds);
+    $minutes = floor($seconds / 60);
+    $remainingSeconds = $seconds % 60;
+
+    $formattedDelay = sprintf("%d min %02d s", $minutes, $remainingSeconds);
+    return $isNegative ? "- $formattedDelay" : $formattedDelay;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +115,7 @@ if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 			<tr>
 				<td><?= htmlspecialchars($delay['route']) ?></td>
 				<td><?= htmlspecialchars($delay['stop']) ?></td>
-				<td><?= htmlspecialchars($delay['delay']) ?>s</td>
+				<td><?= htmlspecialchars(formatDelay($delay['delay'])) ?></td>
 				<td><?= htmlspecialchars($delay['scheduled_departure']) ?></td>
 				<td><?= htmlspecialchars($delay['estimated_departure']) ?></td>
 			</tr>
