@@ -79,8 +79,8 @@ function loadStops($filename) {
     return $stops;
 }
 
-$routes = loadRoutes('routes.txt');
-$stops = loadStops('stops.txt');
+$routes = loadRoutes('gtfs_extract/routes.txt');
+$stops = loadStops('gtfs_extract/stops.txt');
 
 function getDelays() {
     global $routes, $stops;
