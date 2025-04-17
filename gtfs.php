@@ -12,7 +12,7 @@ function requireAllPhpFiles($directory) {
     }
 }
 
-requireAllPhpFiles('Transit_realtime');
+requireAllPhpFiles(__DIR__ .'/Transit_realtime');
 
 
 use \Transit_realtime\FeedMessage;
@@ -81,8 +81,8 @@ function loadStops($filename) {
     return $stops;
 }
 
-$routes = loadRoutes('gtfs_extract/routes.txt');
-$stops = loadStops('gtfs_extract/stops.txt');
+$routes = loadRoutes(__DIR__ .'/gtfs_extract/routes.txt');
+$stops = loadStops(__DIR__ .'/gtfs_extract/stops.txt');
 
 function getDelays() {
     global $routes, $stops;
