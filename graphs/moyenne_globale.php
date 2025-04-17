@@ -1,6 +1,22 @@
 <?php
 include '../config.php';
 
+$cache_dir = __DIR__ . '/cache_graphs';
+$cache_lifetime = 300; // 5 minutes
+
+if (!file_exists($cache_dir)) {
+    mkdir($cache_dir, 0755, true);
+}
+
+$cache_key = md5("moyenne");
+$cache_file = "$cache_dir/$cache_key.png";
+
+if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_lifetime) {
+    // Sert l'image en cache
+    header('Content-Type: image/png');
+    readfile($cache_file);
+}else{
+
 $host = DB_SERVERNAME;
 $user = DB_USERNAME;
 $password = DB_PASSWORD;
@@ -76,8 +92,11 @@ foreach ($hours as $index => $hour) {
 // Légende
 imagestring($img, 3, $width / 2 - 50, $marge - 20, "Retard moyen par heure (en minutes)", $textColor);
 
+imagepng($img, $cache_file);
+imagedestroy($img);
+
 // Affichage de l'image
 header('Content-Type: image/png');
-imagepng($img);
-imagedestroy($img);
+readfile($cache_file);
+}
 ?>

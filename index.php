@@ -105,7 +105,7 @@ function formatDelay($seconds) {
 		</thead>
 		<tbody>
 <?php foreach ($delays as $delay): ?>
-<?php storeDB(substr($delay['route_id'],2), $delay['stop_id'], $delay['delay'], "historisation"); ?>
+<?php storeDB($delay['route_id'], $delay['stop_id'], $delay['delay'], "historisation"); ?>
 <?php
 if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 	continue;
@@ -113,7 +113,7 @@ if ($delayFilter == 'over60' && $delay['delay'] <= 60) {
 ?>
 <?php if ($delay['delay']!=0): ?>
 			<tr>
-				<td><?= htmlspecialchars($delay['route']) ?></td>
+				<td><?= htmlspecialchars($delay['route']) ?></td><!-- <?= htmlspecialchars($delay['route_id']) ?> -->
 				<td><?= htmlspecialchars($delay['stop']) ?></td>
 				<td><?= htmlspecialchars(formatDelay($delay['delay'])) ?></td>
 				<td><?= htmlspecialchars($delay['scheduled_departure']) ?></td>

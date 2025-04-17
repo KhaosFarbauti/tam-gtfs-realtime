@@ -1,22 +1,38 @@
 <?php
 include '../config.php';
 
+$cache_dir = __DIR__ . '/cache_graphs';
+$cache_lifetime = 300; // 5 minutes
+
+if (!file_exists($cache_dir)) {
+    mkdir($cache_dir, 0755, true);
+}
+
 $host = DB_SERVERNAME;
 $user = DB_USERNAME;
 $password = DB_PASSWORD;
 $dbname = DB_NAME;
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
 
 // Récupération du route_id depuis la query string
 $route_id = isset($_GET['route_id']) ? $_GET['route_id'] : null;
 
 if (!$route_id) {
     die("Veuillez spécifier un route_id dans la query string (par exemple : ?route_id=1).");
+}
+
+$cache_key = md5($route_id);
+$cache_file = "$cache_dir/$cache_key.png";
+
+if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_lifetime) {
+    // Sert l'image en cache
+    header('Content-Type: image/png');
+    readfile($cache_file);
+} else {
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 // Récupération des moyennes horaires pour le route_id spécifié
@@ -90,8 +106,11 @@ for ($hour = 0; $hour < 24; $hour++) {
 // Légende
 imagestring($img, 3, $width / 2 - 50, $marge - 20, "Retard moyen par heure de la ligne $route_id (en secondes)", $textColor);
 
+imagepng($img, $cache_file);
+imagedestroy($img);
+
 // Affichage de l'image
 header('Content-Type: image/png');
-imagepng($img);
-imagedestroy($img);
+readfile($cache_file);
+}
 ?>

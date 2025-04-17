@@ -33,14 +33,16 @@ function storeDB($colA, $colB, $colC, $table) {
 	switch($table) {
 		case 'historisation':
 			$colonnes = "route_id, stop_id, retard";
+			$format_bind = "sii";
 			break;
 		case 'etat_global':
 			$colonnes = "total_retard, total_lignes, delay_moyen";
+			$format_bind = "iii";
 			break;
 	}
 
 	$stmt = $conn->prepare("INSERT INTO ".$table." (".$colonnes.") VALUES (?, ?, ?)");
-	$stmt->bind_param("iii", $colA, $colB, $colC);
+	$stmt->bind_param($format_bind, $colA, $colB, $colC);
 
     if (!$stmt->execute()) {
         echo "Erreur : " . $stmt->error;
@@ -225,7 +227,7 @@ function getServiceAlerts() {
 }
 
 function getLignes() {
-    $routes = loadRoutes('routes.txt');
+    $routes = loadRoutes('gtfs_extract/routes.txt');
 	$lignes = array_keys($routes);
 	sort($lignes, SORT_NATURAL);
 	return $lignes;
