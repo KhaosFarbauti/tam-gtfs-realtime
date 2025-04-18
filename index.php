@@ -42,7 +42,7 @@ function formatDelay($seconds) {
 			<tr>
 				<th>Etat Global du réseau</th>
 				<th>Nombre de bus/tram</th>
-				<th>Retard moyen</th>
+				<th>Retard moyen en cours</th>
 			</tr>
 		</thead>
 		<tbody>
