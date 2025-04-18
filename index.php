@@ -55,7 +55,7 @@ function formatDelay($seconds) {
 	</table>
 
 <?php storeDB($delaysCount, ($delaysCount+$ontimeCount+$earlyCount), $averageDelay, "etat_global"); ?>
-<p><a href="graphiques.php">Voir les graphiques</a></p>
+<p class="liengraph"><a href="graphiques.php">Voir les graphiques</a></p>
 <?php if (!empty($alerts)): ?>
 	<h2>Alertes en cours</h2>
 	<table class="dataTable">
