@@ -2,7 +2,7 @@
 include '../config.php';
 
 $cache_dir = __DIR__ . '/cache_graphs';
-$cache_lifetime = 300; // 5 minutes
+$cache_lifetime = 600; // 10 minutes
 
 if (!file_exists($cache_dir)) {
     mkdir($cache_dir, 0755, true);
