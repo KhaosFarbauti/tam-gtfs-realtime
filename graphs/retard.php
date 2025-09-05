@@ -16,7 +16,7 @@ if (!is_dir($cache_dir)) {
 }
 
 // Route ID sécurisé
-$route_id = filter_input(INPUT_GET, 'route_id', FILTER_SANITIZE_STRING);
+$route_id = strip_tags(filter_input(INPUT_GET, 'route_id', FILTER_UNSAFE_RAW));
 if (!$route_id) {
     afficherMessageErreur("Parametre 'route_id' manquant.");
 }
