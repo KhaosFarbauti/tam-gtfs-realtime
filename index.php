@@ -47,7 +47,16 @@ function formatDelay($seconds) {
 		</thead>
 		<tbody>
 			<tr>
-				<td><?= round($delaysCount / ($delaysCount+$ontimeCount+$earlyCount) * 100,0); ?>% de bus/tram en retard</td>
+				<td>
+					<?php
+						$total = $delaysCount + $ontimeCount + $earlyCount;
+						if ($total > 0) {
+							echo round($delaysCount / $total * 100, 0) . '% de bus/tram en retard';
+						} else {
+							echo 'Aucune donnée disponible';
+						}
+					?>
+				</td>
 				<td>en retard : <?= $delaysCount ?><br />à l'heure : <?= $ontimeCount ?><br />en avance : <?= $earlyCount ?></td>
 				<td><?= $averageDelay ?> minute<?php if ($averageDelay>1): ?>s<?php endif; ?></td>
 			</tr>
